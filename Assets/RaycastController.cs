@@ -65,20 +65,22 @@ public class RaycastController : MonoBehaviour
     }
 
     private IEnumerator takeShot() {
+        playSound(0);
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         RaycastHit hit;
 
         int layer_mask = LayerMask.GetMask("birdLayer");
         if (Physics.Raycast(ray, out hit, maxDistanceRay, layer_mask))
         {
-            objName = hit.collider.gameObject.name;
-            birdName.text = objName;
+            // objName = hit.collider.gameObject.name;
             Vector3 birdPosition = hit.collider.gameObject.transform.position;
 
             if (objName == "Bird_Asset(Clone)")
             {
                 Destroy(hit.collider.gameObject);
                 spawnNewBird();
+            } else {
+                birdName.text = "Tidak tepat";
             }
         }
 
@@ -86,7 +88,8 @@ public class RaycastController : MonoBehaviour
         gunFlash.transform.position = gunFlashTarget.transform.position;
 
         yield return new WaitForSeconds(fireRate);
-
+        
+        birdName.text = "";
         nextShot = true;
     }
 }
