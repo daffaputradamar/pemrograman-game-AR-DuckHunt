@@ -15,7 +15,7 @@ public class birdController : MonoBehaviour
     void Update()
     {
         Vector3 target = targetFocus.position - this.transform.position;
-        Debug.Log(target.magnitude);
+        // Debug.Log(target.magnitude);
 
         if (target.magnitude < 1)
         {

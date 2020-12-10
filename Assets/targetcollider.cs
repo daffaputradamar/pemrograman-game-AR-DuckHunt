@@ -30,9 +30,9 @@ public class targetcollider : DefaultTrackableEventHandler
         temp.z = Random.Range(-2.5f, 2.5f);
         transform.position = new Vector3(temp.x, temp.y - 6.5f, temp.z);
 
-        if (DefaultTrackableEventHandler.trueFalse)
-        {
-            RaycastController.instance.playSound(0);
-        }
+        // if (DefaultTrackableEventHandler.trueFalse)
+        // {
+        //     RaycastController.instance.playSound(0);
+        // }
     }
 }

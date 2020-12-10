@@ -23,13 +23,14 @@ public class RaycastController : MonoBehaviour
         }
     }
 
-    public void playSound(int sound) {
+    private void playSound(int sound) {
         audio.clip = clips[sound];
         audio.Play();
     }
 
     void Start()
     {
+        audio = GetComponent<AudioSource>();
         StartCoroutine(spawnNewBird());
         // playSound(2);
     }
@@ -59,15 +60,17 @@ public class RaycastController : MonoBehaviour
     public void Fire() {
         if (nextShot)
         {
+            playSound(0);
             StartCoroutine(takeShot());
             nextShot = false;
         }
     }
 
     private IEnumerator takeShot() {
-        playSound(0);
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         RaycastHit hit;
+
+        GameController.instance.tembakPerRonde--;
 
         int layer_mask = LayerMask.GetMask("birdLayer");
         if (Physics.Raycast(ray, out hit, maxDistanceRay, layer_mask))
@@ -78,7 +81,12 @@ public class RaycastController : MonoBehaviour
             if (objName == "Bird_Asset(Clone)")
             {
                 Destroy(hit.collider.gameObject);
-                spawnNewBird();
+                StartCoroutine(spawnNewBird());
+                
+                GameController.instance.tembakPerRonde = 3;
+                GameController.instance.playerScore++;
+                GameController.instance.roundScore++;
+
             } else {
                 birdName.text = "Tidak tepat";
             }
